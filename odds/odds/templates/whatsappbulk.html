@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bulk msg</title>
+</head>
+<body>
+<form action="/whatAI/" onsubmit="watbot()" method="post">
+    {%csrf_token%}
+<input type="file" formmethod="post" id="myfile"
+       name="filename">
+<input type="submit">
+</form>
+</body>
+</html>
