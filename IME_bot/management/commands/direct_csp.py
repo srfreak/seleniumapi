@@ -3,10 +3,10 @@ from time import sleep
 from django.forms import Select
 from django.http import HttpResponse
 
-import csv
+
 from selenium.webdriver.support.ui import Select
 from selenium import webdriver
-from PIL import Image
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
