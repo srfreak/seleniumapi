@@ -13,6 +13,7 @@ pip.main(["install", "openpyxl"])
 from time import sleep
 import pandas
 import os
+from colorama import win32
 
 
 def watbot(request):
@@ -30,29 +31,36 @@ def watbot(request):
 
         driver = webdriver.Chrome(executable_path='D:/Old Data/Integration Files/new/chromedriver')
         driver.get('https://web.whatsapp.com')
-        sleep(30)
+        sleep(25)
         # input("Press ENTER after login into Whatsapp Web and your chats are visiable.")
 
         for column in f_name['Contact'].tolist():
             try:
                 sleep(2)
-                driver.get('https://web.whatsapp.com/send?phone=' + str(f_name['Contact'][count]) + '&text=' + str(f_name['Messages'][0]))
+                driver.get('https://web.whatsapp.com/send?phone=' + str(f_name['Contact'][count]) + '&text=' + str(
+                    f_name['Messages'][0]))
 
                 sent = False
-                sleep(3)
+                sleep(10)
                 # It tries 3 times to send a message in case if there any error occurred
 
                 try:
-                    sleep(2)
+
                     click_btn = driver.find_element(By.XPATH,
                                                     '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span')
-                    sleep(1)
-                except Exception as e:
-                    print("Sorry message could not sent to " + str(f_name['Contact'][count]))
-                else:
-                    sleep(1)
+
+
                     click_btn.click()
-                    sent = True
+                    sleep(4)
+
+                except Exception as e:
+                    print("Sorry message could not sent to " + str(f_name['Contact'][count]) + str(e))
+                else:
+                    sleep(3)
+                    driver.find_element(By.XPATH, '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div['
+                                                  '1]/div/div[1]/p')
+                    click_btn.click()
+
                     sleep(2)
                     print('Message sent to: ' + str(f_name['Contact'][count]))
                 count = count + 1

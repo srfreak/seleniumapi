@@ -1,6 +1,5 @@
 from time import sleep
 
-
 from django.forms import Select
 from django.http import HttpResponse
 
@@ -16,6 +15,7 @@ from django.core.management.base import BaseCommand
 
 def string(request):
     if request.method == 'POST':
+
         admin = webdriver.Chrome(executable_path='D:/Old Data/Integration Files/new/chromedriver')
 
         admin.get("https://admin.imeforex-txn.net/admin/")
@@ -54,15 +54,58 @@ def string(request):
             admin.find_element(By.XPATH, '/html/body/form/table/tbody/tr[2]/td/table/tbody/tr/td[2]/div/iframe'))
         # print(WebDriverWait(admin, 20).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="form1"]/table/tbody/tr[2]/td/table/tbody'))).text)
         # admin.find_element(By.XPATH, '').click()
-        bel = Select(admin.find_element(By.ID,'dateType'))
-        bel.select_by_value('t')
+
+        date_type = request.POST.get('datetype')
+        print(date_type)
+        bel = Select(admin.find_element(By.ID, 'dateType'))
+        bel.select_by_value(str(date_type))
+
+        stat_s = request.POST.get('status')
+        tel = Select(admin.find_element(By.ID, 'status'))
+        tel.select_by_value(str(stat_s))
+
+        date = request.POST.get('date')
+        month = request.POST.get('date')
+
+        date_b = date[0:2]
+
+        month_b = month[3:5]
+
+        if month_b[0] == str(0):
+            month_b = int(month[4])
+            month = int(month_b - 1)
+            print(month)
+        else:
+            month_b = int(month[3:5])
+            month = int(month_b - 1)
+            print(month)
+        if date_b[0] == str(0):
+            date = date[1]
+            print(date)
+        else:
+            date = date_b
+            print(date)
+
+        admin.find_element(By.CLASS_NAME, 'ui-datepicker-trigger').click()
+        monthe = Select(admin.find_element(By.CLASS_NAME, 'ui-datepicker-month'))
+        monthe.select_by_value(str(month))
+        dat = admin.find_element(By.CLASS_NAME, 'ui-state-default')
+        # dat = Select(admin.find_element(By.NAME,'fromDate'))
+        sleep(1)
+        admin.find_element(By.LINK_TEXT, str(date)).click()
+
+        ## selecting report
+        report = request.POST.get('sAgentGrp')
+        print(report)
         sel = Select(admin.find_element(By.XPATH, '//*[@id="sAgentGrp"]'))
-        sel.select_by_value('6207')
+        sel.select_by_value(report)
 
         admin.find_element(By.ID, 'btnNew').click()
-        met = admin.get(
-            'https://admin.imeforex-txn.net/SwiftSystem/Reports/AnalysisReport/TranAnalysisReport.aspx?reportName=20162310&fromDate=2022-7-30&toDate=2022-7-30&fromTime=00:00:00&toTime=23:59:59&dateType=P&status=&sCountry=&sAgent=&sBranch=&rCountry=Nepal&tranType=&groupBy=datewise&searchBy=sender&searchByText=&sAgentGrp=6207&sPartner=&controlNo=')
-        get = admin.find_element(By.XPATH, '/html/body')
+        sleep(2)
+        admin.switch_to.window(admin.window_handles[2])
+        get = admin.find_element(By.ID,'export').click()
+
+        admin.find_element(By.XPATH, '/html/body')
 
         # print(get.text)
         s = admin.get_window_size()
@@ -70,12 +113,11 @@ def string(request):
         w = admin.execute_script('return document.body.parentNode.scrollWidth')
         h = admin.execute_script('return document.body.parentNode.scrollHeight')
         # set to new window size
-        admin.set_window_size(w, h)
+        admin.maximize_window()
+
         # obtain screenshot of page within body tag
         abcd = admin.find_element(By.XPATH, '/html').screenshot("cspreport.png")
         admin.set_window_size(s['width'], s['height'])
-
+        sleep(30)
     return HttpResponse('thank you </br>'
                         'report downloaded to server')
-
-
