@@ -1,19 +1,15 @@
-from json import dumps
 
-import json
 
 from django.http import HttpResponse
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import pip
-
-pip.main(["install", "openpyxl"])
 from time import sleep
 import pandas
 import os
-from colorama import win32
+pip.main(["install", "openpyxl"])
+
+
 
 
 def watbot(request):
@@ -40,7 +36,7 @@ def watbot(request):
                 driver.get('https://web.whatsapp.com/send?phone=' + str(f_name['Contact'][count]) + '&text=' + str(
                     f_name['Messages'][0]))
 
-                sent = False
+                # sent = False
                 sleep(10)
                 # It tries 3 times to send a message in case if there any error occurred
 
@@ -48,8 +44,6 @@ def watbot(request):
 
                     click_btn = driver.find_element(By.XPATH,
                                                     '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span')
-
-
                     click_btn.click()
                     sleep(4)
 
