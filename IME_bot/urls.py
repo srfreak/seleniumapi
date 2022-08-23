@@ -7,6 +7,6 @@ urlpatterns = [
     path('abc/', views.get, name='west'),
     path('whatsapp/', views.whatsapp, name='whatbot'),
     path('csp/', direct_csp.string, name='csp'),
-    path('whatAI/', abs.watbot, name='whatAI' )
+    path('whatAI/', abs.watbot, name='whatAI')
 
 ]
