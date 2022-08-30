@@ -7,9 +7,16 @@
 <body>
 <form action="/whatAI/" onsubmit="watbot()" method="post">
     {%csrf_token%}
-<input type="file" formmethod="post" id="myfile"
-       name="filename">
-<input type="submit">
+    <div>
+
+    </div>
+    Image full path<input type="text" class="form-control" name="url">
+
+<div><br>
+        Select  upload .xlxs file <input type="file" formmethod="post" id="myfile"
+               name="filename"></div>
+
+        <input type="submit">
 </form>
 </body>
 </html>
